@@ -134,7 +134,7 @@ public static final String ANSI_RESET = "\u001B[om";
                             int j = r.nextInt(2);
                             int z = r.nextInt(nombresv.size());
                             String nombre = nombresv.get(z);
-                            int dano = r.nextInt(100);
+                            int dano = 100 + r.nextInt(150);
                             int X = r.nextInt(9);
                             int Y = r.nextInt(9);
                             Jugador conductor = new Jugador ("", 0);
@@ -189,6 +189,37 @@ public static final String ANSI_RESET = "\u001B[om";
                     break;
                 }
                 case 7: {
+                    int cant = r.nextInt(vehiculos.size() );
+                    
+                    ArrayList<Vehiculo> Rojo = new ArrayList();
+                    ArrayList<Vehiculo> Azul = new ArrayList();
+                    
+                    ArrayList<Integer>R_Vida = new ArrayList();
+                    ArrayList<Integer>A_Vida = new ArrayList();
+                    
+                    for (int i = 0; i < Rojo.size() ; i++){
+                        R_Vida.add( 500 + r.nextInt(500) );
+                        A_Vida.add( 500 + r.nextInt(500) );
+                    }
+                    int cycle = 0;
+                    
+                    while (cycle < cant){
+                        int x = r.nextInt(jugadores.size());
+                        int y = r.nextInt(vehiculos.size());
+                        vehiculos.get(y).setConductor(jugadores.get(x) );
+                        vehiculos.get(y).setColor("Rojo");
+                        Rojo.add(vehiculos.get(y) );
+                        x = r.nextInt(jugadores.size() );
+                        y = r.nextInt(vehiculos.size() );
+                        vehiculos.get(y).setConductor(jugadores.get(x) );
+                        vehiculos.get(y).setColor("Azul");
+                        Azul.add(vehiculos.get(y) );
+                        cycle++;
+                    }
+                    System.out.println("Equipos Cargados");
+                    System.out.println("===========");
+                    boolean juego = true;
+                    boolean empate = false;
                     
                     break;
                 }
@@ -208,5 +239,7 @@ public static final String ANSI_RESET = "\u001B[om";
             System.out.println();
         }
     }
-    
+    public static String [][] Juego (ArrayList<Vehiculo> Azul, ArrayList<Vehiculo> Rojo, ArrayList<Integer>R_Vida, ArrayList<Integer> A_Vida){
+        
+    }
 }
