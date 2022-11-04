@@ -1,14 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package p2lab4_rigoberto_luis;
 
-/**
- *
- * @author Ivins
- */
-public class Aviones {
+public class Aviones extends Vehiculo {
+
+    public Aviones() {
+    }
+
+    public Aviones(String nombre, int dano, int X, int Y, Jugador conductor, String color) {
+        super(nombre, dano, X, Y, conductor, color);
+    }
+
+    @Override
+    public String toString() {
+        return "Avion: " + nombre;
+    }
     
 }
