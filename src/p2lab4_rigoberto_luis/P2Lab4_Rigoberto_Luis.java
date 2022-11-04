@@ -265,12 +265,12 @@ public static final String ANSI_RESET = "\u001B[om";
     public static void Imprimir(String [][] tabla){
         for (int i = 0; i < tabla.length; i++){
             for (int j = 0; j < tabla[i].length; j++){
-                if (i < 5 && tabla[i][j] != "  "){
+                if (i < 5 && tabla[i][j] != " "){
                     System.out.print("[" + ANSI_RED + tabla[i][j] + ANSI_RESET + "]");
-                } else if (i >= 5 && tabla[i][j] != "  "){
+                } else if (i >= 5 && tabla[i][j] != " "){
                     System.out.print("[" + ANSI_BLUE + tabla[i][j] + ANSI_RESET + "]");
                 }
-                System.out.print("[ " + tabla[i][j] + " ]");            
+                System.out.print("[" + tabla[i][j] + "]");            
             }
             System.out.println();
         }
@@ -284,7 +284,7 @@ public static final String ANSI_RESET = "\u001B[om";
         String [][] temp = tabla;
         for (int i = 0; i < temp.length; i++){
             for (int j = 0; j < temp[i].length; j++){
-                temp[i][j] = "  ";
+                temp[i][j] = " ";
             }
         }
         int cont = 0;
@@ -292,7 +292,7 @@ public static final String ANSI_RESET = "\u001B[om";
             boolean pos = false;
             int X = r.nextInt(temp.length);
             int Y = r.nextInt(4);
-            if (temp[Y][X] == "  "){
+            if (temp[Y][X] == " "){
                 if (Rojo.get(cont) instanceof Aviones){
                     temp[Y][X] = "A" + cont;
                 } else if (Rojo.get(cont) instanceof Barco){
@@ -308,7 +308,7 @@ public static final String ANSI_RESET = "\u001B[om";
             boolean pos = false;
             int X = r.nextInt(temp.length);
             int Y = 5 + r.nextInt(4);
-            if (temp[Y][X] == "  "){
+            if (temp[Y][X] == " "){
                 if (Azul.get(cont) instanceof Aviones){
                     temp[Y][X] = "A" + cont;
                 } else if (Azul.get(cont) instanceof Barco){
