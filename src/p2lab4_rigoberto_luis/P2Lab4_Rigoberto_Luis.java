@@ -81,9 +81,52 @@ public static final String ANSI_RESET = "\u001B[om";
                     break;
                 }
                 case 3: {
-                    System.out.println("Esto no estaba antes");
-                    System.out.println("Te odio Java");
-                    System.out.println("Epico ");
+                    System.out.print("Cantidad de Jugadores a Generar: ");
+                    try{
+                        int cant = lea.nextInt();
+                        for (int i = 0; i < cant; i++){
+                            int j = r.nextInt(nombres.size() );
+                            String nombre = nombres.get(j);
+                            jugadores.add( new Jugador(nombre, 0) );
+                        }
+                        System.out.println("Generacion Exitosa");
+                    } catch (Exception e){
+                        System.out.println("Hubo un Error");
+                    }
+                    break;
+                }
+                case 4: {
+                    System.out.print("Cantidad a Vehiculos a Generar: ");
+                    try{
+                        int cant = lea.nextInt();
+                        for (int i = 0; i < cant; i++){
+                            int j = r.nextInt(2);
+                            int z = r.nextInt(nombresv.size());
+                            String nombre = nombresv.get(z);
+                            int dano = r.nextInt(100);
+                            int X = r.nextInt(9);
+                            int Y = r.nextInt(9);
+                            Jugador conductor = new Jugador ("", 0);
+                            String color = "";
+                            switch(j) {
+                                case 0: {
+                                    vehiculos.add( new Aviones (nombre, dano, X, Y, conductor, color ) );
+                                    break;
+                                }
+                                case 1: {
+                                    vehiculos.add( new Barco ( nombre, dano, X , Y , conductor, color ) );
+                                    break;
+                                }
+                                case 2: {
+                                    vehiculos.add( new Submarino ( nombre, dano, X, Y, conductor, color ) );
+                                    break;
+                                }
+                            }
+                        }
+                        System.out.println("Generacion Exitosa");
+                    } catch (Exception e){
+                        System.out.println("Hubo un Error");
+                    }
                     break;
                 }
                 case 5: {
