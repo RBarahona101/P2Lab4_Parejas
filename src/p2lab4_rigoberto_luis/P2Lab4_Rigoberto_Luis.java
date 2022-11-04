@@ -8,11 +8,15 @@ public class P2Lab4_Rigoberto_Luis {
 
 static Random r = new Random();
 static Scanner lea = new Scanner(System.in);
+public static final String ANSI_RED = "\u001B[31m";
+public static final String ANSI_BLUE = "\u001B[34m";
+public static final String ANSI_RESET = "\u001B[om";
 
     public static void main(String[] args) {
         
         String [][]tabla = new String [10][10];
         ArrayList<String> nombres = new ArrayList();
+        ArrayList<String> nombresv = new ArrayList();
         ArrayList<Jugador> jugadores = new ArrayList();
         ArrayList<Vehiculo> vehiculos = new ArrayList();
         
@@ -30,11 +34,50 @@ static Scanner lea = new Scanner(System.in);
             int opcion = lea.nextInt();
             switch(opcion){
                 case 1: {
-                    
+                    System.out.println("---Agregar Jugador---");
+                    System.out.println("Ingrese el nombre del jugador");
+                    String nombre = lea.next();
+                    int victorias = 0;
+                    jugadores.add( new Jugador( nombre, victorias));
                     break;
                 }
                 case 2: {
+                    System.out.println("---Agregar Vehiculo---");
+                    System.out.println("Ingrese el nombre del vehiculo");
+                    String nombre = lea.next();
+                    System.out.println("Ingrese el daño del vehiculo");
+                    int daño = lea.nextInt();
+                    System.out.println("Ingrese posicion X");
+                    int X = lea.nextInt();
+                    System.out.println("Ingrese posicion Y");
+                    int Y = lea.nextInt();
+                    String color = "";
+                    Jugador conductor = new Jugador ("", 0);
+                    System.out.println("Que tipo de vehiculo desea ingresar\n"
+                            + "1) Avion\n"
+                            + "2) Barco\n"
+                            + "3) Submarino");
+                    int tipo = lea.nextInt();
                     
+                    switch (tipo){
+                        case 1: {
+                            vehiculos.add ( new Aviones (nombre, daño, X, Y, conductor, color));
+                            System.out.println("Avion creado exitosamente");
+                            break;
+                        }
+                        case 2: {
+                            vehiculos.add ( new Barco (nombre, daño, X, Y, conductor, color));
+                            System.out.println("Barco creado exitosamente");
+                            break;
+                        }
+                        case 3: {
+                            vehiculos.add ( new Submarino (nombre, daño, X, Y, conductor, color));
+                            System.out.println("Submarino creado exitosamente");
+                            break;
+                        }
+                        default: 
+                            System.out.println("Opcion inexcistente");
+                    }
                     break;
                 }
                 case 3: {
