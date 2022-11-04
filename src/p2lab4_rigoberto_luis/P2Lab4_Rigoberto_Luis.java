@@ -48,6 +48,36 @@ public static final String ANSI_RESET = "\u001B[om";
         nombres.add("Carmen");
         nombres.add("Mark");
         ArrayList<String> nombresv = new ArrayList();
+        nombresv.add("Halcon");
+        nombresv.add("Ala-X");
+        nombresv.add("Caza-TIE");
+        nombresv.add("Destructor");
+        nombresv.add("Lanzador");
+        nombresv.add("El-Rubi");
+        nombresv.add("Control");
+        nombresv.add("Supreme");
+        nombresv.add("Tfire");
+        nombresv.add("Aventador");
+        nombresv.add("Locomotora");
+        nombresv.add("Luz");
+        nombresv.add("Boom");
+        nombresv.add("Brim");
+        nombresv.add("Jett");
+        nombresv.add("Phoenix");
+        nombresv.add("Clutch");
+        nombresv.add("Sova");
+        nombresv.add("Cypher");
+        nombresv.add("Sage");
+        nombresv.add("Killjoy");
+        nombresv.add("Omen");
+        nombresv.add("Ben");
+        nombresv.add("Razw");
+        nombresv.add("Breach");
+        nombresv.add("Reyna");
+        nombresv.add("Yoru");
+        nombresv.add("KAY/O");
+        nombresv.add("Neon");
+        nombresv.add("Astra");
         ArrayList<Jugador> jugadores = new ArrayList();
         ArrayList<Vehiculo> vehiculos = new ArrayList();
         
@@ -220,7 +250,8 @@ public static final String ANSI_RESET = "\u001B[om";
                     System.out.println("===========");
                     boolean juego = true;
                     boolean empate = false;
-                    
+                    tabla = Fill(tabla, Rojo, Azul);
+                    Imprimir(tabla);
                     break;
                 }
                 default:{
@@ -231,15 +262,63 @@ public static final String ANSI_RESET = "\u001B[om";
         }
     }
     
-    public static void Imprimir(String [][] matriz){
-        for (int i = 0; i < matriz.length; i++){
-            for (int j = 0; j < matriz[i].length; j++){
-                System.out.print("[ " + matriz[i][j] + " ]");            
+    public static void Imprimir(String [][] tabla){
+        for (int i = 0; i < tabla.length; i++){
+            for (int j = 0; j < tabla[i].length; j++){
+                if (i < 5 && tabla[i][j] != "  "){
+                    System.out.print("[" + ANSI_RED + tabla[i][j] + ANSI_RESET + "]");
+                } else if (i >= 5 && tabla[i][j] != "  "){
+                    System.out.print("[" + ANSI_BLUE + tabla[i][j] + ANSI_RESET + "]");
+                }
+                System.out.print("[ " + tabla[i][j] + " ]");            
             }
             System.out.println();
         }
     }
-    public static String [][] Juego (ArrayList<Vehiculo> Azul, ArrayList<Vehiculo> Rojo, ArrayList<Integer>R_Vida, ArrayList<Integer> A_Vida){
-        
+    public static String [][] Juego (String [][] tabla, ArrayList<Vehiculo> Azul, ArrayList<Vehiculo> Rojo, ArrayList<Integer>R_Vida, ArrayList<Integer> A_Vida){
+        // X = j y Y = i
+        String [][] temp = tabla;
+        return temp;
+    }
+    public static String [][] Fill (String [][] tabla, ArrayList<Vehiculo> Azul, ArrayList<Vehiculo> Rojo ) {
+        String [][] temp = tabla;
+        for (int i = 0; i < temp.length; i++){
+            for (int j = 0; j < temp[i].length; j++){
+                temp[i][j] = "  ";
+            }
+        }
+        int cont = 0;
+        while(cont < Rojo.size() ){
+            boolean pos = false;
+            int X = r.nextInt(temp.length);
+            int Y = r.nextInt(4);
+            if (temp[Y][X] == "  "){
+                if (Rojo.get(cont) instanceof Aviones){
+                    temp[Y][X] = "A" + cont;
+                } else if (Rojo.get(cont) instanceof Barco){
+                    temp[Y][X] = "B" + cont;
+                } else if (Rojo.get(cont) instanceof Submarino){
+                    temp[Y][X] = "S" + cont;
+                }
+                cont++;
+            }
+        }
+        cont = 0;
+        while(cont < Azul.size() ){
+            boolean pos = false;
+            int X = r.nextInt(temp.length);
+            int Y = 5 + r.nextInt(4);
+            if (temp[Y][X] == "  "){
+                if (Azul.get(cont) instanceof Aviones){
+                    temp[Y][X] = "A" + cont;
+                } else if (Azul.get(cont) instanceof Barco){
+                    temp[Y][X] = "B" + cont;
+                } else if (Azul.get(cont) instanceof Submarino){
+                    temp[Y][X] = "S" + cont;
+                }
+                cont++;
+            }
+        }
+        return temp;
     }
 }
