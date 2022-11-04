@@ -15,7 +15,38 @@ public static final String ANSI_RESET = "\u001B[om";
     public static void main(String[] args) {
         
         String [][]tabla = new String [10][10];
+        
         ArrayList<String> nombres = new ArrayList();
+        nombres.add("Rigoberto");
+        nombres.add("Carlos");
+        nombres.add("Luis");
+        nombres.add("Jose");
+        nombres.add("Beto");
+        nombres.add("Lucy");
+        nombres.add("Valeria");
+        nombres.add("Fernando");
+        nombres.add("Leo");
+        nombres.add("Andres");
+        nombres.add("Nuila");
+        nombres.add("Esther");
+        nombres.add("Ingrid");
+        nombres.add("Pedro");
+        nombres.add("Hector");
+        nombres.add("Tavo");
+        nombres.add("Gerson");
+        nombres.add("Elias");
+        nombres.add("Mia");
+        nombres.add("Jessica");
+        nombres.add("Maria");
+        nombres.add("Marlon");
+        nombres.add("Lucas");
+        nombres.add("Marco");
+        nombres.add("Oscar");
+        nombres.add("Yahir");
+        nombres.add("Meleodas");
+        nombres.add("Neo");
+        nombres.add("Carmen");
+        nombres.add("Mark");
         ArrayList<String> nombresv = new ArrayList();
         ArrayList<Jugador> jugadores = new ArrayList();
         ArrayList<Vehiculo> vehiculos = new ArrayList();
@@ -155,6 +186,14 @@ public static final String ANSI_RESET = "\u001B[om";
                         }
                         System.out.println(salida);
                     }
+                    break;
+                }
+                case 7: {
+                    
+                    break;
+                }
+                default:{
+                    flag = false;
                     break;
                 }
             }
