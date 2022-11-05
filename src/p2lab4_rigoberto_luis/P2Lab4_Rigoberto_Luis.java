@@ -412,6 +412,7 @@ public static final String ANSI_RESET = "\u001B[om";
                         }
                     }
                     contR++;
+                    cont++;
                     // Azul
                 } else{
                     int Y = 0;
@@ -512,6 +513,7 @@ public static final String ANSI_RESET = "\u001B[om";
                         }
                     }
                     contA++;
+                    cont++;
                 }
             }
             // Fin de Cont
