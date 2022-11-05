@@ -219,39 +219,72 @@ public static final String ANSI_RESET = "\u001B[om";
                     break;
                 }
                 case 7: {
-                    int cant = r.nextInt(vehiculos.size() );
-                    
-                    ArrayList<Vehiculo> Rojo = new ArrayList();
-                    ArrayList<Vehiculo> Azul = new ArrayList();
-                    
-                    ArrayList<Integer>R_Vida = new ArrayList();
-                    ArrayList<Integer>A_Vida = new ArrayList();
-                    
-                    for (int i = 0; i < Rojo.size() ; i++){
-                        R_Vida.add( 500 + r.nextInt(500) );
-                        A_Vida.add( 500 + r.nextInt(500) );
+                    if (jugadores.isEmpty() || vehiculos.isEmpty() ){
+                        System.out.println("No se puede jugar aun");
+                    }else{
+                        int cant = r.nextInt(vehiculos.size());
+
+                        ArrayList<Vehiculo> Rojo = new ArrayList();
+                        ArrayList<Vehiculo> Azul = new ArrayList();
+
+                        ArrayList<Vida> R_Vida = new ArrayList();
+                        ArrayList<Vida> A_Vida = new ArrayList();
+
+                        for (int i = 0; i < Rojo.size(); i++) {
+                            R_Vida.add(new Vida(500 + r.nextInt(500)));
+                            A_Vida.add(new Vida(500 + r.nextInt(500)));
+                        }
+                        int cycle = 0;
+
+                        while (cycle < cant) {
+                            int x = r.nextInt(jugadores.size());
+                            int y = r.nextInt(vehiculos.size());
+                            
+                            vehiculos.get(y).setConductor(jugadores.get(x));
+                            vehiculos.get(y).setColor("Rojo");
+                            Rojo.add(vehiculos.get(y));
+                            
+                            x = r.nextInt(jugadores.size());
+                            y = r.nextInt(vehiculos.size());
+                            
+                            vehiculos.get(y).setConductor(jugadores.get(x));
+                            vehiculos.get(y).setColor("Azul");
+                            Azul.add(vehiculos.get(y));
+                            
+                            cycle++;
+                        }
+                        System.out.println("Equipos Cargados");
+                        System.out.println("====================================================");
+                        boolean juego = true;
+                        boolean empate = false;
+                        tabla = Fill(tabla, Rojo, Azul);
+                        Imprimir(tabla);
+                        while(juego == true){
+                            tabla = Juego(tabla,Azul,Rojo,R_Vida,A_Vida);
+                            Imprimir(tabla);
+                            for (int i = 0; i < tabla.length; i++){
+                                for (int j = 0; j < tabla[i].length; j++){
+                                    
+                                }
+                            }
+                            if (Rojo.isEmpty() || Azul.isEmpty() ){
+                                juego = false;
+                            }
+                        }
+                        if (Rojo.isEmpty() ){
+                            System.out.println("El Equipo Azul Ha Ganado!");
+                            for (int i = 0; i < Azul.size(); i++){
+                                int victorias = Azul.get(i).getConductor().getVictorias() + 1;
+                                Azul.get(i).getConductor().setVictorias(victorias);
+                            }
+                        } else if (Azul.isEmpty() ){
+                            System.out.println("El Equipo Rojo Ha Ganado!");
+                            for (int i = 0; i < Rojo.size(); i++){
+                                int victorias = Rojo.get(i).getConductor().getVictorias() + 1;
+                                Rojo.get(i).getConductor().setVictorias(victorias);
+                            }
+                        }
                     }
-                    int cycle = 0;
-                    
-                    while (cycle < cant){
-                        int x = r.nextInt(jugadores.size());
-                        int y = r.nextInt(vehiculos.size());
-                        vehiculos.get(y).setConductor(jugadores.get(x) );
-                        vehiculos.get(y).setColor("Rojo");
-                        Rojo.add(vehiculos.get(y) );
-                        x = r.nextInt(jugadores.size() );
-                        y = r.nextInt(vehiculos.size() );
-                        vehiculos.get(y).setConductor(jugadores.get(x) );
-                        vehiculos.get(y).setColor("Azul");
-                        Azul.add(vehiculos.get(y) );
-                        cycle++;
-                    }
-                    System.out.println("Equipos Cargados");
-                    System.out.println("===========");
-                    boolean juego = true;
-                    boolean empate = false;
-                    tabla = Fill(tabla, Rojo, Azul);
-                    Imprimir(tabla);
                     break;
                 }
                 default:{
@@ -265,26 +298,233 @@ public static final String ANSI_RESET = "\u001B[om";
     public static void Imprimir(String [][] tabla){
         for (int i = 0; i < tabla.length; i++){
             for (int j = 0; j < tabla[i].length; j++){
-                if (i < 5 && tabla[i][j] != " "){
-                    System.out.print("[" + ANSI_RED + tabla[i][j] + ANSI_RESET + "]");
-                } else if (i >= 5 && tabla[i][j] != " "){
-                    System.out.print("[" + ANSI_BLUE + tabla[i][j] + ANSI_RESET + "]");
-                }
-                System.out.print("[" + tabla[i][j] + "]");            
+                    System.out.print("[" + tabla[i][j] + "]"); 
+                
             }
             System.out.println();
         }
     }
-    public static String [][] Juego (String [][] tabla, ArrayList<Vehiculo> Azul, ArrayList<Vehiculo> Rojo, ArrayList<Integer>R_Vida, ArrayList<Integer> A_Vida){
+    public static String [][] Juego (String [][] tabla, ArrayList<Vehiculo> Azul, ArrayList<Vehiculo> Rojo, ArrayList<Vida>R_Vida, ArrayList<Vida> A_Vida){
         // X = j y Y = i
         String [][] temp = tabla;
+        int cont = 0;
+        int turno = 1;
+        int contR = 0;
+        int contA = 0;
+        try{
+            while (cont < Rojo.size() + Azul.size() ){
+                if (turno%2 != 0){
+                    int Y = 0;
+                    int X = 0;
+                    if (Rojo.get(contR) instanceof Aviones){
+                        for (int i = 0; i < temp.length; i++){
+                            for (int j = 0; j < temp[i].length; j++){
+                                if (temp[i][j] == "A" + contR){
+                                    Y = i;
+                                    X = j;
+                                }
+                            }
+                        }
+                        for (int i = Y; i < temp.length; i++){
+                            for (int j = 0; j < Azul.size(); j++){
+                                if (temp[i][X] == "b"+j){
+                                    int dano = 100 + r.nextInt(150);
+                                    int vida = A_Vida.get(j).getVida() - dano;
+                                    A_Vida.get(j).setVida(vida);
+                                    if (vida <= 0){
+                                        A_Vida.remove(j);
+                                        Azul.remove(j);
+                                    }
+                                }
+                            }
+                        }
+                        temp[Y][X] = "  ";
+                        boolean repeat = true;
+                        while(repeat == true){
+                            X = r.nextInt(temp.length);
+                            Y = r.nextInt(4);
+                            if (temp[Y][X] == "  "){
+                                temp[Y][X] = "A" + contR;
+                                repeat = false;
+                            }
+                        }
+                    } else if (Rojo.get(contR) instanceof Barco){
+                        for (int i = 0; i < temp.length; i++){
+                            for (int j = 0; j < temp[i].length; j++){
+                                if (temp[i][j] == "B" + contR){
+                                    Y = i;
+                                    X = j;
+                                }
+                            }
+                        }
+                        for (int i = Y; i < temp.length; i++){
+                            for (int j = 0; j < Azul.size(); j++){
+                                if (temp[i][X] == "s"+j){
+                                    int dano = 100 + r.nextInt(150);
+                                    int vida = A_Vida.get(j).getVida() - dano;
+                                    A_Vida.get(j).setVida(vida);
+                                    if (vida <= 0){
+                                        A_Vida.remove(j);
+                                        Azul.remove(j);
+                                    }
+                                }
+                            }
+                        }
+                        temp[Y][X] = "  ";
+                        boolean repeat = true;
+                        while(repeat == true){
+                            X = r.nextInt(temp.length);
+                            if (temp[Y][X] == "  "){
+                                temp[Y][X] = "A" + contR;
+                                repeat = false;
+                            }
+                        }                        
+                    } else if (Rojo.get(contR) instanceof Submarino){
+                        for (int i = 0; i < temp.length; i++){
+                            for (int j = 0; j < temp[i].length; j++){
+                                if (temp[i][j] == "S" + contR){
+                                    Y = i;
+                                    X = j;
+                                }
+                            }
+                        }
+                        for (int i = Y; i < temp.length; i++){
+                            for (int j = 0; j < Azul.size(); j++){
+                                if (temp[i][X] == "a"+j){
+                                    int dano = 100 + r.nextInt(150);
+                                    int vida = A_Vida.get(j).getVida() - dano;
+                                    A_Vida.get(j).setVida(vida);
+                                    if (vida <= 0){
+                                        A_Vida.remove(j);
+                                        Azul.remove(j);
+                                    }
+                                }
+                            }
+                        }
+                        temp[Y][X] = "  ";
+                        boolean repeat = true;
+                        while(repeat == true){
+                            X = r.nextInt(temp.length);
+                            if (temp[Y][X] == "  "){
+                                temp[Y][X] = "S" + contR;
+                                repeat = false;
+                            }
+                        }
+                    }
+                    contR++;
+                    // Azul
+                } else{
+                    int Y = 0;
+                    int X = 0;
+                    if (Azul.get(contR) instanceof Aviones){
+                        for (int i = 0; i < temp.length; i++){
+                            for (int j = 0; j < temp[i].length; j++){
+                                if (temp[i][j] == "a" + contA){
+                                    Y = i;
+                                    X = j;
+                                }
+                            }
+                        }
+                        for (int i = Y; i < temp.length; i++){
+                            for (int j = 0; j < Rojo.size(); j++){
+                                if (temp[i][X] == "B"+j){
+                                    int dano = 100 + r.nextInt(150);
+                                    int vida = R_Vida.get(j).getVida() - dano;
+                                    R_Vida.get(j).setVida(vida);
+                                    if (vida <= 0){
+                                        R_Vida.remove(j);
+                                        Rojo.remove(j);
+                                    }
+                                }
+                            }
+                        }
+                        temp[Y][X] = "  ";
+                        boolean repeat = true;
+                        while(repeat == true){
+                            X = r.nextInt(temp.length);
+                            Y = 5 + r.nextInt(4);
+                            if (temp[Y][X] == "  "){
+                                temp[Y][X] = "a" + contA;
+                                repeat = false;
+                            }
+                        }
+                    } else if (Azul.get(contR) instanceof Barco){
+                        for (int i = 0; i < temp.length; i++){
+                            for (int j = 0; j < temp[i].length; j++){
+                                if (temp[i][j] == "b" + contA){
+                                    Y = i;
+                                    X = j;
+                                }
+                            }
+                        }
+                        for (int i = Y; i < temp.length; i++){
+                            for (int j = 0; j < Rojo.size(); j++){
+                                if (temp[i][X] == "S"+j){
+                                    int dano = 100 + r.nextInt(150);
+                                    int vida = R_Vida.get(j).getVida() - dano;
+                                    R_Vida.get(j).setVida(vida);
+                                    if (vida <= 0){
+                                        R_Vida.remove(j);
+                                        Rojo.remove(j);
+                                    }
+                                }
+                            }
+                        }
+                        temp[Y][X] = "  ";
+                        boolean repeat = true;
+                        while(repeat == true){
+                            X = r.nextInt(temp.length);
+                            if (temp[Y][X] == "  "){
+                                temp[Y][X] = "b" + contA;
+                                repeat = false;
+                            }
+                        }                        
+                    } else if (Azul.get(contR) instanceof Submarino){
+                        for (int i = 0; i < temp.length; i++){
+                            for (int j = 0; j < temp[i].length; j++){
+                                if (temp[i][j] == "s" + contA){
+                                    Y = i;
+                                    X = j;
+                                }
+                            }
+                        }
+                        for (int i = Y; i < temp.length; i++){
+                            for (int j = 0; j < Rojo.size(); j++){
+                                if (temp[i][X] == "A"+j){
+                                    int dano = 100 + r.nextInt(150);
+                                    int vida = R_Vida.get(j).getVida() - dano;
+                                    R_Vida.get(j).setVida(vida);
+                                    if (vida <= 0){
+                                        R_Vida.remove(j);
+                                        Rojo.remove(j);
+                                    }
+                                }
+                            }
+                        }
+                        temp[Y][X] = "  ";
+                        boolean repeat = true;
+                        while(repeat == true){
+                            X = r.nextInt(temp.length);
+                            if (temp[Y][X] == "  "){
+                                temp[Y][X] = "s" + contA;
+                                repeat = false;
+                            }
+                        }
+                    }
+                    contA++;
+                }
+            }
+            // Fin de Cont
+        } catch (Exception IndexoutofBounds){
+            System.out.println("Oops");
+        }
         return temp;
     }
     public static String [][] Fill (String [][] tabla, ArrayList<Vehiculo> Azul, ArrayList<Vehiculo> Rojo ) {
         String [][] temp = tabla;
         for (int i = 0; i < temp.length; i++){
             for (int j = 0; j < temp[i].length; j++){
-                temp[i][j] = " ";
+                temp[i][j] = "  ";
             }
         }
         int cont = 0;
@@ -292,7 +532,7 @@ public static final String ANSI_RESET = "\u001B[om";
             boolean pos = false;
             int X = r.nextInt(temp.length);
             int Y = r.nextInt(4);
-            if (temp[Y][X] == " "){
+            if (temp[Y][X] == "  "){
                 if (Rojo.get(cont) instanceof Aviones){
                     temp[Y][X] = "A" + cont;
                 } else if (Rojo.get(cont) instanceof Barco){
@@ -301,6 +541,8 @@ public static final String ANSI_RESET = "\u001B[om";
                     temp[Y][X] = "S" + cont;
                 }
                 cont++;
+            } else {
+                
             }
         }
         cont = 0;
@@ -308,15 +550,17 @@ public static final String ANSI_RESET = "\u001B[om";
             boolean pos = false;
             int X = r.nextInt(temp.length);
             int Y = 5 + r.nextInt(4);
-            if (temp[Y][X] == " "){
+            if (temp[Y][X] == "  "){
                 if (Azul.get(cont) instanceof Aviones){
-                    temp[Y][X] = "A" + cont;
+                    temp[Y][X] = "a" + cont;
                 } else if (Azul.get(cont) instanceof Barco){
-                    temp[Y][X] = "B" + cont;
+                    temp[Y][X] = "b" + cont;
                 } else if (Azul.get(cont) instanceof Submarino){
-                    temp[Y][X] = "S" + cont;
+                    temp[Y][X] = "s" + cont;
                 }
                 cont++;
+            } else{
+                
             }
         }
         return temp;
